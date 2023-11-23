@@ -1,78 +1,71 @@
 "use client"
-import React, {useState} from 'react';
- import Image from 'next/image'
-import {Tooltip} from "@nextui-org/react"
+import { useState } from "react";
 
- {/* {/* // export const metadata = { 
-//   title: 'xactwear contactpage',
-//   description: 'Here we meet your needs xactly!',
-// } */}
+const Questionaire = () => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [feedback, setFeedback] = useState('');
 
-function Questionaire(props)
-{
-  const [formvalue, setFormvalue]= useState({name:'',email:'', message:'' });
-
-  const handleInput =(e)=>{
-    const { name, value}= e.target;
-    setFormvalue({...formvalue, [name]:value});
-    //console.log(formvalue);
-  }
-  const handleFormsubmit= async (e)=>{
+  const handleSubmit = (e) => {
     e.preventDefault();
-    
-   await fetch('http://localhost:3001/feedback', {
+    const feedback = { name, email, feedback };
+
+    fetch('http://localhost:3001/feedback', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-		  name:formvalue.name,
-        email: formvalue.email,
-        message: formvalue.message
-      })
-    });
-   console.log("success");
-
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(feedback)
+    }).then(() => {
+      console.log('new feedback added');
+    })
   }
-    return(
-        <>
-            <div className='mt-[10px] pt-10'>
-            <h1 className='text-[60px] text-center'>Let's keep in touch with you</h1>
-          <div className='flex gap-100px center'>
-        <div className='flex-1 h-125 relative'>
-           <Image src="/contact.png" alt='xact contact' fill={true} className='object-contain'/>
-        </div>
-            <form onSubmit={ handleFormsubmit} className='flex-1 flex flex-col	g-20px'>            
-                <div className="col-md-3">  
-                <label className="form-label text-white">Name</label>  
-                <Tooltip>          
-                <input  type="text" name='name' value={formvalue.name} onChange={ handleInput}  className='form-control'  placeholder='Name...' />
-                </Tooltip> 
-              </div>
 
-              <div className="col-md-3">  
-                <label className="form-label text-white">Email</label>  
-                <Tooltip>           
-                <input type="text" name='email' value={formvalue.email } onChange={ handleInput}  className='form-control'  placeholder='Email...' />
-                </Tooltip> 
-              </div>
+  return (
+    <div className="create">
+      <h2 className="font-bold items-center">We would like to know how to serve you better. Kindly fill out this questionaire</h2>
+      <form onSubmit={handleSubmit}>
+        <label>Name:</label>
+        <input 
+        className="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+          type="text" 
+          required 
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
 
-              <div className="col-md-3">  
-                <label className="form-label text-white">message</label> 
-                <Tooltip>  
-                    <textarea type="text" name='message' value={formvalue.message} onChange={ handleInput}  className='form-control'  placeholder='Message...' ></textarea>          
-                <input type="text" name='message' value={formvalue.message} onChange={ handleInput}  className='form-control'  placeholder='Message...' />
-                </Tooltip> 
-              </div>
-              <div className="col-md-2">  
-                <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2'>Submit</button>
-              </div>
-
-
-               </form>
-
-          </div>
-        </div>
-        </>
-    );
+        <label>Email:</label>
+        <input 
+        className="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+          type="text" 
+          required 
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <label>Feedback:</label>
+        <input
+        className="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" 
+          type="text" 
+          required 
+          value={feedback}
+          onChange={(e) => setFeedback(e.target.value)}
+        />
+        {/* <label>Email:</label>
+        <textarea
+          required
+          value={email}
+          onChange={(e) => setBody(e.target.value)}
+        ></textarea>
+        <label>Blog author:</label>
+        <select
+          value={author}
+          onChange={(e) => setAuthor(e.target.value)}
+        >
+          <option value="mario">mario</option>
+          <option value="yoshi">yoshi</option>
+        </select> */}
+        <button type="submit" className=" text-white rounded-full bg-blue-500 hover:bg-blue-700 flex flex-col items-center">Add Feedback</button>
+      </form>
+    </div>
+  );
 }
-
+ 
 export default Questionaire;

@@ -14,7 +14,8 @@ export default async function handler(req, res) {
       },
       headers: {
         "x-rapidapi-host": "qrcodeutils.p.rapidapi.com",
-        "x-rapidapi-key": process.env.NEXT_PUBLIC_RAPIDAPI_KEY,
+        "x-rapidapi-key": "90cd9d1537msh50a0a055b77b382p1de5c9jsn19ef662dfd96",
+        // "x-rapidapi-key": process.env.NEXT_PUBLIC_RAPIDAPI_KEY,
       },
     };
 
